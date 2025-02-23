@@ -92,9 +92,9 @@ void getCommand() {
 void loop() {
 
   int sensorValue1 =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
-  int sensorValue2 = map(analogRead(sensorPin[1]), 4095, 0, 0, 100);
+  int sensorValue2 = map(analogRead(sensorPin[1]), 0, 4095, 0, 100);
   int sensorValue3 =  map(analogRead(sensorPin[2]), 4095, 0, 0, 100);
-  int sensorValue4 = map(analogRead(sensorPin[3]), 4095, 0, 0, 100);
+  int sensorValue4 = map(analogRead(sensorPin[3]), 0, 4095, 0, 100);
 
   motor1.write(map(sensorValue1,0,100,0,90));
   motor2.write(map(sensorValue2,0,100,0,90));
