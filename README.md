@@ -62,4 +62,4 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 - ✅ **Web Interface:** Build a **web interface** to monitor and control the system remotely.  
 - ✅ **Mobile App:** Develop a **mobile app** for manual control and notifications.  
 
-ppt : https://9fx3gmg3-3000.inc1.devtunnels.ms/data
+ppt : [https://9fx3gmg3-3000.inc1.devtunnels.ms/data](https://drive.google.com/file/d/1zIstZgxqgqrOJWSOMQLmJsqx-EQAWDii/view?usp=sharing)
