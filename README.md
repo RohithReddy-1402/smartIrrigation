@@ -14,15 +14,17 @@ This project is designed to calculate soil moisture based on weather data (**tem
 
 ---
 ## 🚀 **Project Overview**
-This project utilizes an **ESP8266 (NodeMCU)** to:
+This project utilizes an **ESP32 (NodeMCU)** to:
 - Fetch **real-time weather data** (temperature, humidity, precipitation) from the **OpenWeatherMap API**.
 - Calculate **soil moisture levels** using a simple formula.
-- Control a **relay module** to turn the irrigation system (**motor/valve**) **on** or **off** based on soil moisture levels.
+- Control a **Relay module or Servo** to turn the irrigation system (**motor/valve**) **on** or **off** based on soil moisture levels.
 
 ### **🌟 Features:**
-- ✅ Fetch weather data using the **OpenWeatherMap API**.  
-- ✅ Calculate **soil moisture** based on environmental conditions.  
-- ✅ Control a **relay module** to manage the irrigation system efficiently.  
+- ✅ Fetch weather data using the **OpenWeatherMap API** and display it on the website.  
+- ✅ Calculate **soil moisture** based on environmental conditions and sensor data.  
+- ✅ Control a **Relay module(Motor) or Valves** to manage the irrigation system efficiently.
+- ✅ **Remotely** turn *On* and *Off* the Water Supply via Web-Interface ,to each individual part of the crop.
+- ✅ Set thresholds for Upper and Lower values of soil moisture 
 
 ---
 ## 🛠 **Prerequisites**
@@ -48,8 +50,8 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 
 ### **1️⃣ Weather Data Retrieval:**
 - The **NodeMCU** fetches weather data (**temperature, humidity, precipitation**) from **OpenWeatherMap**.
-- The system calculates **soil moisture** using a formula based on the fetched weather data
-- It make a Decision based on the sensor data and Weather Forecast.
+- The system calculates **soil moisture** using a formula based on the fetched weather data.
+- It make a Decision for the water supply based on the sensor data and Weather Forecast.
 
 ### **2️⃣ Irrigation Control:**
 - If **soil moisture is too low (<30%)**, the relay is **activated**, turning on the motor/valve.
@@ -63,4 +65,4 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 - ✅ **Web Interface:** Build a **web interface** to monitor and control the system remotely.  
 - ✅ **Mobile App:** Develop a **mobile app** for manual control and notifications.  
 
-**PPT** : [https://9fx3gmg3-3000.inc1.devtunnels.ms/data](https://drive.google.com/file/d/1zIstZgxqgqrOJWSOMQLmJsqx-EQAWDii/view?usp=sharing)
+## **PPT** : https://drive.google.com/file/d/1zIstZgxqgqrOJWSOMQLmJsqx-EQAWDii/view?usp=sharing
