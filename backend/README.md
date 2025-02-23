@@ -1,6 +1,6 @@
 # Soil Moisture and Irrigation Control System Backend
 
-- This is backend code for our project
+
 
 ## Table of Contents
 1. Project Overview
