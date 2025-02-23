@@ -28,19 +28,19 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 ## 🛠 **Prerequisites**
 
 ### **🔧 Hardware:**
-- **NodeMCU (ESP8266)**
-- **Relay module** (for controlling motors/valves)
+- **NodeMCU (ESP32)**
+- **Relay module or Servo Motor** (for controlling motors/valves)
 - **Jumper wires**
 - **Motor or irrigation valve**
 - **Power supply** for the motor
 
 ### **💻 Software:**
-- **Arduino IDE** (for programming NodeMCU in C/C++)
+- **Arduino IDE** (for programming NodeMCU in C/embeded C)
 - **OpenWeatherMap API key** (for fetching weather data)
 
 ### **📦 Required Libraries:**
-- `ESP8266WiFi.h` (for Wi-Fi connectivity)
-- `ESP8266HTTPClient.h` (for making HTTP requests)
+- `ESP32WiFi.h` (for Wi-Fi connectivity)
+- `ESP32HTTPClient.h` (for making HTTP requests)
 - `ArduinoJson.h` (for parsing JSON data from the API)
 
 ---
@@ -48,11 +48,12 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 
 ### **1️⃣ Weather Data Retrieval:**
 - The **NodeMCU** fetches weather data (**temperature, humidity, precipitation**) from **OpenWeatherMap**.
-- The system calculates **soil moisture** using a formula based on the fetched weather data.
+- The system calculates **soil moisture** using a formula based on the fetched weather data
+- It make a Decision based on the sensor data and Weather Forecast.
 
 ### **2️⃣ Irrigation Control:**
 - If **soil moisture is too low (<30%)**, the relay is **activated**, turning on the motor/valve.
-- If **soil moisture is too high (>60%)**, the relay is **deactivated**, turning off the motor/valve.
+- If **soil moisture is too high (>80%)**, the relay is **deactivated**, turning off the motor/valve.
 
 ---
 ## 🔮 **Future Improvements**
@@ -62,4 +63,4 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 - ✅ **Web Interface:** Build a **web interface** to monitor and control the system remotely.  
 - ✅ **Mobile App:** Develop a **mobile app** for manual control and notifications.  
 
-ppt : [https://9fx3gmg3-3000.inc1.devtunnels.ms/data](https://drive.google.com/file/d/1zIstZgxqgqrOJWSOMQLmJsqx-EQAWDii/view?usp=sharing)
+**PPT** : [https://9fx3gmg3-3000.inc1.devtunnels.ms/data](https://drive.google.com/file/d/1zIstZgxqgqrOJWSOMQLmJsqx-EQAWDii/view?usp=sharing)
