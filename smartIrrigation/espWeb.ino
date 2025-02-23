@@ -258,21 +258,11 @@ void loop() {
     motorStatus[i] = true;
     }
   }
-  for(int i=0;i<4;i++){
-    if(motorStatus[i]==0 && valveOutput[i]!=false){
-      motorStatus[i]=false;
-    }else if (motorStatus[i]==90 && valveOutput[i]!=true) {
-    motorStatus[i]=true;
-    }
-  }
   
-  
- 
   motor1.write(valveOutput[0]);
   motor2.write(valveOutput[1]);
   motor3.write(valveOutput[2]);
   motor4.write(valveOutput[3]);
 
 sendDataToServer();
-   // getCommand();
 }
