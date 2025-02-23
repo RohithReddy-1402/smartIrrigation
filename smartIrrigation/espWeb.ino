@@ -6,6 +6,7 @@
 const char* ssid = "HELL0"; 
 const char* password = "gogetyours";         
 const char* serverUrl = "https://smartirrigationbackend.onrender.com"; 
+const char* serverURL = "https://9fx3gmg3-3000.inc1.devtunnels.ms/motor";
 
 #define API_KEY "f8d681a7dd8c83f235fe52350a19bddb"
 #define YOUR_LAT "29.9476"
@@ -137,8 +138,8 @@ void sendData() {
         serializeJson(doc, payload);
         int httpResponseCode = http.POST(payload);
 
-        //**. Serial.println("Data Sent: " + payload);
-        //**. Serial.println("Response Code: " + String(httpResponseCode));
+        //. Serial.println("Data Sent: " + payload);
+        //. Serial.println("Response Code: " + String(httpResponseCode));
         http.end();
     }
 }
@@ -158,25 +159,65 @@ void getCommand() {
     }
 }
 
+void motor(){
+ if (WiFi.status() == WL_CONNECTED) {
+        HTTPClient http;
+        http.begin(serverURL);
+        int httpResponseCode = http.GET();
+
+        if (httpResponseCode == 200) {
+            String response = http.getString();
+            response.trim();  // Remove any unwanted spaces or newlines
+
+            Serial.println("Server Response: " + response);
+
+            // JSON Parsing
+            StaticJsonDocument<200> doc;
+            DeserializationError error = deserializeJson(doc, response);
+
+            if (!error) {
+                for (int i = 0; i < doc.size(); i++) {
+                    String motorStatus = doc[i].as<String>();
+                    bool isMotorOn = (motorStatus == "true");
+
+                    if(isMotorOn){
+                      valveOutput[i] = 90;
+                    }else {
+                    valveOutput[i] = 0;
+                    }
+                }
+            } else {
+                Serial.println("Error parsing JSON!");
+            }
+        } else {
+            Serial.println("Error fetching data: " + String(httpResponseCode));
+        }
+
+        http.end();
+    } else {
+        Serial.println("WiFi Disconnected!");
+    }
+}
+
 void loop() {
   getRainForecast();
-
-
+  sendData();
+  motor();
+//reading sensor value
   sensorValue[0] =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
   sensorValue[1] = map(analogRead(sensorPin[1]), 0, 4095, 0, 100);
   sensorValue[2] =  map(analogRead(sensorPin[2]), 4095, 0, 0, 100);
   sensorValue[3] = map(analogRead(sensorPin[3]), 0, 4095, 0, 100);
 
   for(int i=0;i<4;i++){
-      valveData[i] = (100-(sensorValue[i]+P))*(100-H)*(T-10);
+      valveData[i] = (100-(sensorValue[i]+P))(100-H)(T-10);
       Serial.println(sensorValue[i]);
       if (valveData[i]>0) {
-        valveData[i] =   map(valveData[i],0,70000,0,100);
+        valveData[i] =  map(valveData[i],0,70000,0,100);
       }else {
       valveData[i]=0;
       }
     }
-  
   for(int i=0;i<4;i++){
     if(valveData[i]<30){
       valveOutput[i] = 0;
@@ -189,6 +230,5 @@ void loop() {
   motor3.write(valveOutput[2]);
   motor4.write(valveOutput[3]);
 
-    sendData();
-    getCommand();
+   // getCommand();
 }
