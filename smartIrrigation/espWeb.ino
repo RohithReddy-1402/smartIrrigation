@@ -7,6 +7,7 @@ const char* ssid = "HELL0";
 const char* password = "gogetyours";         
 const char* serverUrl = "https://smartirrigationbackend.onrender.com"; 
 const char* serverURL = "https://9fx3gmg3-3000.inc1.devtunnels.ms/motor";
+const char* serverURL_send = "https://9fx3gmg3-3000.inc1.devtunnels.ms/motor-to-web";
 
 #define API_KEY "f8d681a7dd8c83f235fe52350a19bddb"
 #define YOUR_LAT "29.9476"
@@ -35,6 +36,7 @@ int pos4 =0;
 int sensorValue[4] ={0,0,0,0};
 int valveData[4] = {0,0,0,0};
 int valveOutput[4]={0,0,0,0};
+bool motorStatus[4] = {false,false,false,false};
 float P=10,H=35,T=22;
 
 //weather forecast
@@ -95,6 +97,33 @@ void getRainForecast() {
   http.end();
 }
 
+void sendDataToServer() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin(serverURL_send);
+    http.addHeader("Content-Type", "application/json");
+
+    // Create JSON document
+    StaticJsonDocument<200> jsonDoc;
+    JsonArray motorArray = jsonDoc.createNestedArray("motor_status");
+
+    for (int i = 0; i < 4; i++) {
+      motorArray.add(motorStatus[i]);  // Add values to JSON array
+    }
+
+    String payload;
+    serializeJson(jsonDoc, payload);  // Convert JSON document to string
+
+    int httpResponseCode = http.POST(payload);
+    Serial.println("Data sent: " + payload);
+    Serial.println("Response code: " + String(httpResponseCode));
+
+    http.end();
+  } else {
+    Serial.println("WiFi Disconnected");
+  }
+}
+
 void setup() {
     Serial.begin(115200);
     WiFi.begin(ssid, password);
@@ -138,8 +167,8 @@ void sendData() {
         serializeJson(doc, payload);
         int httpResponseCode = http.POST(payload);
 
-        //. Serial.println("Data Sent: " + payload);
-        //. Serial.println("Response Code: " + String(httpResponseCode));
+        //**. Serial.println("Data Sent: " + payload);
+        //**. Serial.println("Response Code: " + String(httpResponseCode));
         http.end();
     }
 }
@@ -182,8 +211,10 @@ void motor(){
 
                     if(isMotorOn){
                       valveOutput[i] = 90;
+                      motorStatus[i] = true;
                     }else {
                     valveOutput[i] = 0;
+                    motorStatus[i] = false;
                     }
                 }
             } else {
@@ -205,12 +236,12 @@ void loop() {
   motor();
 //reading sensor value
   sensorValue[0] =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
-  sensorValue[1] = map(analogRead(sensorPin[1]), 0, 4095, 0, 100);
+  sensorValue[1] = map(analogRead(sensorPin[1]),  0, 4095, 0, 100);
   sensorValue[2] =  map(analogRead(sensorPin[2]), 4095, 0, 0, 100);
   sensorValue[3] = map(analogRead(sensorPin[3]), 0, 4095, 0, 100);
 
   for(int i=0;i<4;i++){
-      valveData[i] = (100-(sensorValue[i]+P))(100-H)(T-10);
+      valveData[i] = (100-(sensorValue[i]+P))*(100-H)*(T-10);
       Serial.println(sensorValue[i]);
       if (valveData[i]>0) {
         valveData[i] =  map(valveData[i],0,70000,0,100);
@@ -219,16 +250,29 @@ void loop() {
       }
     }
   for(int i=0;i<4;i++){
-    if(valveData[i]<30){
+    if(valveData[i]<30 ){
+      motorStatus[i] = false;
       valveOutput[i] = 0;
     }else if (valveData[i]>85) {
     valveOutput[i] = 90;
+    motorStatus[i] = true;
     }
   }
+  for(int i=0;i<4;i++){
+    if(motorStatus[i]==0 && valveOutput[i]!=false){
+      motorStatus[i]=false;
+    }else if (motorStatus[i]==90 && valveOutput[i]!=true) {
+    motorStatus[i]=true;
+    }
+  }
+  
+  
+ 
   motor1.write(valveOutput[0]);
   motor2.write(valveOutput[1]);
   motor3.write(valveOutput[2]);
   motor4.write(valveOutput[3]);
 
+sendDataToServer();
    // getCommand();
 }
