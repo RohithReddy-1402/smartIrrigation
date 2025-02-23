@@ -1,5 +1,7 @@
 # Soil Moisture and Irrigation Control System Backend
 
+- This is backend code for our project
+
 ## Table of Contents
 1. Project Overview
 2. Prerequisites
@@ -20,7 +22,6 @@ This backend application is responsible for fetching weather data, calculating s
 - Computes soil moisture levels based on weather conditions.
 - Controls a relay module for automated irrigation.
 - Provides API endpoints for monitoring and manual control.
-
 ---
 
 ## Prerequisites
