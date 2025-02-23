@@ -11,7 +11,6 @@ This project is designed to calculate soil moisture based on weather data (**tem
 - [**Usage**](#usage)
 - [**Running the Program**](#running-the-program)
 - [**Future Improvements**](#future-improvements)
-- [**License**](#license)
 
 ---
 ## 🚀 **Project Overview**
@@ -63,11 +62,4 @@ This project utilizes an **ESP8266 (NodeMCU)** to:
 - ✅ **Web Interface:** Build a **web interface** to monitor and control the system remotely.  
 - ✅ **Mobile App:** Develop a **mobile app** for manual control and notifications.  
 
----
-## 📜 **License**
-This project is licensed under the **MIT License**. Feel free to modify and use it for your own projects!
-
----
-### 🎯 **Need Help?**
-If you have any questions or suggestions, feel free to reach out! 🚀😊
-
+ppt : https://9fx3gmg3-3000.inc1.devtunnels.ms/data
