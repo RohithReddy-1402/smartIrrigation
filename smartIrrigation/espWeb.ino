@@ -173,21 +173,6 @@ void sendData() {
     }
 }
 
-void getCommand() {
-    if (WiFi.status() == WL_CONNECTED) {
-        HTTPClient http;
-        http.begin(String(serverUrl) + "/get-command");
-        int httpResponseCode = http.GET();
-
-        if (httpResponseCode > 0) {
-            String command = http.getString();
-            //** Serial.println("Received Command: " + command);
-        }
-
-        http.end();
-    }
-}
-
 void motor(){
  if (WiFi.status() == WL_CONNECTED) {
         HTTPClient http;
