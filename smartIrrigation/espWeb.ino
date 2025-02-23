@@ -60,7 +60,7 @@ void sendData() {
         for (int i = 0; i < 4; i++) {
             JsonObject sensor = sensors.createNestedObject();
             sensor["id"] = i + 1;
-            sensor["moisture"] =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
+            sensor["moisture"] =  map(analogRead(sensorPin[i]), 4095, 0, 0, 100);
             
         }
 
