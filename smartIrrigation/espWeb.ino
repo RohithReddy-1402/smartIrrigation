@@ -153,25 +153,26 @@ void sendData() {
         http.begin(String(serverUrl) + "/send-data");
         http.addHeader("Content-Type", "application/json");
 
-        StaticJsonDocument<500> doc;
+        StaticJsonDocument<500> doc;  // Adjusted size for 4 sensors
         JsonArray sensors = doc.createNestedArray("sensors");
 
-        for (int i = 0; i < 4; i++) {
-            JsonObject sensor = sensors.createNestedObject();
-            sensor["id"] = i + 1;
-            sensor["moisture"] =  sensorValue[i];
-            
+        for (int i = 0; i < 4; i++) {  // Only 4 sensors
+            sensors.add(sensorValue[i]);  // Sending as an array
         }
 
         String payload;
         serializeJson(doc, payload);
         int httpResponseCode = http.POST(payload);
 
-        //**. Serial.println("Data Sent: " + payload);
-        //**. Serial.println("Response Code: " + String(httpResponseCode));
+        Serial.println("Data Sent: " + payload);
+        Serial.println("Response Code: " + String(httpResponseCode));
+
         http.end();
+    } else {
+        Serial.println("WiFi not connected! Data not sent.");
     }
 }
+
 
 void motor(){
  if (WiFi.status() == WL_CONNECTED) {
@@ -216,7 +217,7 @@ void motor(){
 }
 
 void loop() {
-  getRainForecast();
+  
   sendData();
   motor();
 //reading sensor value
