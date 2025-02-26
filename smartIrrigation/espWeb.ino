@@ -3,9 +3,9 @@
 #include <ArduinoJson.h>
 #include <ESP32Servo.h>
 
-const char* ssid = "HELL0"; 
-const char* password = "gogetyours";         
-const char* serverUrl = "https://smartirrigationbackend.onrender.com"; 
+const char* ssid = "My"; 
+const char* password ="Rohith09";         
+const char* serverUrl = "https://9fx3gmg3-3000.inc1.devtunnels.ms"; 
 const char* serverURL = "https://9fx3gmg3-3000.inc1.devtunnels.ms/motor";
 const char* serverURL_send = "https://9fx3gmg3-3000.inc1.devtunnels.ms/motor-to-web";
 
@@ -37,6 +37,7 @@ int sensorValue[4] ={0,0,0,0};
 int valveData[4] = {0,0,0,0};
 int valveOutput[4]={0,0,0,0};
 bool motorStatus[4] = {false,false,false,false};
+int sensor_data[4][3]={{0,0,false},{1,0,false},{2,0,false},{3,0,false}};
 float P=10,H=35,T=22;
 
 //weather forecast
@@ -221,14 +222,14 @@ void loop() {
   sendData();
   motor();
 //reading sensor value
-  sensorValue[0] =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
-  sensorValue[1] = map(analogRead(sensorPin[1]),  0, 4095, 0, 100);
-  sensorValue[2] =  map(analogRead(sensorPin[2]), 4095, 0, 0, 100);
-  sensorValue[3] = map(analogRead(sensorPin[3]), 0, 4095, 0, 100);
+  sensor_data[0][1] =  map(analogRead(sensorPin[0]), 4095, 0, 0, 100);
+  sensor_data[1][1] = map(analogRead(sensorPin[1]),  0, 4095, 0, 100);
+  sensor_data[2][1] =  map(analogRead(sensorPin[2]), 4095, 0, 0, 100);
+  sensor_data[3][1] = map(analogRead(sensorPin[3]), 0, 4095, 0, 100);
 
   for(int i=0;i<4;i++){
-      valveData[i] = (100-(sensorValue[i]+P))*(100-H)*(T-10);
-      Serial.println(sensorValue[i]);
+      valveData[i] = (100-(sensor_data[i][1]+P))*(100-H)*(T-10);
+      Serial.println(sensor_data[i][1]);
       if (valveData[i]>0) {
         valveData[i] =  map(valveData[i],0,70000,0,100);
       }else {
@@ -250,5 +251,5 @@ void loop() {
   motor3.write(valveOutput[2]);
   motor4.write(valveOutput[3]);
 
-sendDataToServer();
+// sendDataToServer();
 }
