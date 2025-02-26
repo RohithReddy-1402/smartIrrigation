@@ -154,11 +154,14 @@ void sendData() {
         http.begin(String(serverUrl) + "/send-data");
         http.addHeader("Content-Type", "application/json");
 
-        StaticJsonDocument<500> doc;  // Adjusted size for 4 sensors
+        StaticJsonDocument<500> doc;  
         JsonArray sensors = doc.createNestedArray("sensors");
 
-        for (int i = 0; i < 4; i++) {  // Only 4 sensors
-            sensors.add(sensorValue[i]);  // Sending as an array
+        for (int i = 0; i < 4; i++) {  
+            JsonArray sensorData = sensors.createNestedArray();
+            sensorData.add(i);                 
+            sensorData.add(sensor_data[i][1]);     
+            sensorData.add(sensor_data[i][2]);  
         }
 
         String payload;
